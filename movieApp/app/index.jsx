@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, TextInput, FlatList, Image, StyleSheet, ActivityIndicator, TouchableOpacity } from 'react-native';
 import { searchMovies } from '../service/api'
 import { useRouter } from "expo-router";
+import NoImageComponent from "./components/noImageComponent"
 
 export default Index = () => {
   const [searchTerm, setSearchTerm] = useState('batman');
@@ -9,7 +10,6 @@ export default Index = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const router = useRouter()
-
 
   const fetchMovies = async () => {
     try {
@@ -34,11 +34,10 @@ export default Index = () => {
 
   const goToDetail = (id) => {
     router.push({
-        pathname: "/detalhes",
+        pathname: "/detail",
         params: { id: id }
     })
   }
-
 
   return (
     <View style={styles.container}>
@@ -61,10 +60,10 @@ export default Index = () => {
         renderItem={({ item }) => (
             <TouchableOpacity onPress={() => goToDetail(item.imdbID)}>
                 <View style={styles.card}>
-                    <Image
-                    source={{ uri: item.Poster !== 'N/A' ? item.Poster : 'https://via.placeholder.com/100x150' }}
+                    {item.Poster !== 'N/A' ? <Image
+                    source={{ uri: item.Poster }}
                     style={styles.poster}
-                    />
+                    /> : <NoImageComponent w={100} h={150}/>}
                     <View style={styles.info}>
                     <Text style={styles.movieTitle}>{item.Title}</Text>
                     <Text style={styles.movieYear}>{item.Year}</Text>

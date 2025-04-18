@@ -28,6 +28,7 @@ export const searchMovies = async (searchTerm) => {
     }
   } catch (error) {
     console.error('Erro ao buscar filmes:', error);
+    console.log('Detalhes do erro:', JSON.stringify(error, null, 2));
     throw error;
   }
 };
